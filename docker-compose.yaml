@@ -1,0 +1,30 @@
+version: '3.1'
+services:
+  tiles:
+    image: treqster/tiles:dev
+    build: .
+    volumes:
+      - ./data/:/data/
+      - ./src/:/opt/app/
+    ports:
+      - "18888:8000"
+
+  osm2pgsql:
+    image: treqster/osm2pgsql
+    build: ./osm2pgsql/
+    volumes:
+      - ./data/:/data/
+    command: osm2pgsql -s -C 300 -c -G --hstore --style /data/openstreetmap-carto.style --tag-transform-script /data/openstreetmap-carto.lua -H osmpg -U osm -d osm /data/data.osm.pbf
+    restart: "no"
+
+  osmpg:
+    image: treqster/postgis-osm
+    build:
+      context: .
+      dockerfile: ./postgis-osm/Dockerfile
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: "osm"
+      POSTGRES_USER: "osm"
+      POSTGRES_PASSWORD: ""
