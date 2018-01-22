@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.7
 MAINTAINER Sergei Beilin <sergei.beilin@treqster.net>
 
 ENV LANG en_US.utf8
@@ -10,7 +10,8 @@ VOLUME /data
 
 RUN apk -X http://nl.alpinelinux.org/alpine/edge/testing/ -U add \
         ca-certificates openssl postgresql-client \
-        curl libpq expat proj4 bzip2 zlib boost boost-system boost-filesystem boost-iostreams lua
+        curl libpq expat proj4 bzip2 zlib boost boost-system boost-filesystem boost-iostreams lua \
+        gdal mapnik
 
 RUN apk -X http://nl.alpinelinux.org/alpine/edge/testing/ -U add --virtual .build-dependencies \
         make cmake g++ python expat-dev proj4-dev bzip2-dev zlib-dev boost-dev postgresql-dev lua-dev

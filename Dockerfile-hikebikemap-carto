@@ -1,0 +1,8 @@
+FROM treqster/tiles:dev
+
+COPY ./maps/hikebikemap-carto/ /map/
+
+RUN carto /map/project.mml > /map/mapnik.xml
+
+COPY ./prepare-hikebikemap-carto.sh /map/build.sh
+VOLUME /map/data

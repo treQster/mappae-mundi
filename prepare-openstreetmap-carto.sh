@@ -1,18 +1,18 @@
 #!/bin/bash
 
-HERE=$PWD
+set -x -e
 
-DATA=$PWD/data/openstreetmap-carto
+cd /map/
 
+DATA=./data/
 mkdir -p $DATA
-mkdir -p $DATA/data
 
-./maps/openstreetmap-carto/scripts/get-shapefiles.py -d $DATA/data/
+carto ./project.mml > ./mapnik.xml
 
-cp -r ./maps/openstreetmap-carto/* $DATA/
-
-carto $DATA/project.mml > $DATA/mapnik.xml
+./scripts/get-shapefiles.py -d $DATA/data/
 
 cd $DATA
 wget http://download.geofabrik.de/europe/monaco-latest.osm.pbf
 ln -s monaco-latest.osm.pbf data.osm.pbf
+
+osm2pgsql -s -C 300 -c -G --hstore --style /map/openstreetmap-carto.style --tag-transform-script /map/openstreetmap-carto.lua -H osmpg -U osm -d osm /map/data/data.osm.pbf

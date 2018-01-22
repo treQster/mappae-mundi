@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x -e
+
 HERE=$PWD
 
 DATA=$PWD/data/opentopomaps

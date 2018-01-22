@@ -14,7 +14,7 @@ logger = logging.getLogger()
 
 TILE_SIZE = 256
 MAX_ZOOM = 22
-MAP_FILE = '/data/mapnik.xml'
+MAP_FILE = '/map/mapnik.xml'
 
 mapnik.logger.set_severity(mapnik.severity_type.Debug)
 

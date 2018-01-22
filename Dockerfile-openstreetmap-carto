@@ -1,0 +1,8 @@
+FROM treqster/tiles:dev
+
+COPY ./maps/openstreetmap-carto/ /map/
+
+RUN carto /map/project.mml > /map/mapnik.xml
+
+COPY ./prepare-openstreetmap-carto.sh /map/build.sh
+VOLUME /map/data
