@@ -1,0 +1,9 @@
+[submodule "maps/OpenTopoMap"]
+	path = maps/OpenTopoMap
+	url = https://github.com/der-stefan/OpenTopoMap.git
+[submodule "maps/hikebikemap-carto"]
+	path = maps/hikebikemap-carto
+	url = https://github.com/cmarqu/hikebikemap-carto.git
+[submodule "maps/openstreetmap-carto"]
+	path = maps/openstreetmap-carto
+	url = https://github.com/gravitystorm/openstreetmap-carto.git
