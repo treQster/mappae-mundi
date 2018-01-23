@@ -1,0 +1,9 @@
+FROM treqster/tiles:dev
+
+COPY ./maps/OpenTopoMap/mapnik/ /map/
+
+RUN ln -s /map/opentopomap.xml /map/mapnik.xml
+
+COPY ./prepare-opentopomap.sh /map/build.sh
+VOLUME /map/data
+

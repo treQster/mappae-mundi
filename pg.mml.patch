@@ -1,0 +1,13 @@
+[
+    {
+        "if": {
+            "Datasource.type": "postgis"
+        },
+        "then": {
+            "Datasource.dbname": "osm",
+            "Datasource.host": "osmpg",
+            "Datasource.user": "osm"
+        }
+    }
+]
+

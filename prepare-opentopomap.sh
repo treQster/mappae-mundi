@@ -2,23 +2,19 @@
 
 set -x -e
 
-HERE=$PWD
+cd /map/
 
-DATA=$PWD/data/opentopomaps
+DATA=$PWD/data/
 
-mkdir -p $DATA
 mkdir -p $DATA/data
 
-cd $DATA/data/
+cd $DATA/
 wget http://data.openstreetmapdata.com/water-polygons-generalized-3857.zip
 wget http://data.openstreetmapdata.com/water-polygons-split-3857.zip
 unzip water-polygons-generalized-3857.zip
 unzip water-polygons-split-3857.zip
-cd $HERE
 
-cp -r ./maps/OpenTopoMap/mapnik/* $DATA/
-
-cd $DATA
-ln -s ./opentopomap.xml mapnik.xml
 wget http://download.geofabrik.de/europe/monaco-latest.osm.pbf
-ln -s monaco-latest.osm.pbf data.osm.pbf
+ln -s monaco-latest.osm.pbf data.osm.pbf || echo "Symlink already exists?"
+
+

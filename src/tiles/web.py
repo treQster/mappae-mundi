@@ -19,7 +19,7 @@ MAP_FILE = '/map/mapnik.xml'
 mapnik.logger.set_severity(mapnik.severity_type.Debug)
 
 m = mapnik.Map(TILE_SIZE, TILE_SIZE)
-mapnik.load_map(m, MAP_FILE, True)
+mapnik.load_map(m, MAP_FILE, False)
 
 
 DEG_TO_RAD = pi/180

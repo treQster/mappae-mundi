@@ -17,7 +17,12 @@ services:
     volumes:
       - ./tmp/openstreetmap-carto/:/map/data/
       - ./src/:/opt/app/
-      - ./prepare-hikebikemap-carto.sh:/data/build.sh
+    environment:
+      POSTGRES_HOST: "osmpg"
+      POSTGRES_DB: "hikebikemapcarto"
+      POSTGRES_USER: "osm"
+    ports:
+      - "18888:8000"
 
   hikebikemap-carto-builder:
     image: treqster/hikebikemap-carto:dev
@@ -28,9 +33,12 @@ services:
       - ./tmp/openstreetmap-carto/:/map/data/
       - ./src/:/opt/app/
       - ./prepare-hikebikemap-carto.sh:/data/build.sh
+    environment:
+      POSTGRES_HOST: "osmpg"
+      POSTGRES_DB: "hikebikemapcarto"
+      POSTGRES_USER: "osm"
     command: /data/build.sh
     restart: "no"
-    command: /data/build.sh
 
   openstreetmap-carto:
     image: treqster/openstreetmap-carto:dev
@@ -40,7 +48,12 @@ services:
     volumes:
       - ./tmp/openstreetmap-carto/:/map/data/
       - ./src/:/opt/app/
-      - ./prepare-openstreetmap-carto.sh:/data/build.sh
+    environment:
+      POSTGRES_HOST: "osmpg"
+      POSTGRES_DB: "openstreetmapcarto"
+      POSTGRES_USER: "osm"
+    ports:
+      - "18888:8000"
 
   openstreetmap-carto-builder:
     image: treqster/openstreetmap-carto:dev
@@ -51,21 +64,46 @@ services:
       - ./tmp/openstreetmap-carto/:/map/data/
       - ./src/:/opt/app/
       - ./prepare-openstreetmap-carto.sh:/data/build.sh
+    environment:
+      POSTGRES_HOST: "osmpg"
+      POSTGRES_DB: "openstreetmapcarto"
+      POSTGRES_USER: "osm"
     command: /data/build.sh
     restart: "no"
-    command: /data/build.sh
 
-#
-#  osm2pgsql:
-#    image: treqster/osm2pgsql
-#    build: ./osm2pgsql/
-#    volumes:
-#      - ./data/openstreetmap-carto/:/data/
-#    command: osm2pgsql -s -C 300 -c -G --hstore --style /data/openstreetmap-carto.style --tag-transform-script /data/openstreetmap-carto.lua -H osmpg -U osm -d osm /data/data.osm.pbf
-##    command: osm2pgsql --slim -C 300 --flat-nodes /data/gis-flat-nodes.bin --style /data/mapnik/osm2pgsql/opentopomap.style -H osmpg -U osm -d osm /data/data.osm.pbf
-##    command: osm2pgsql -s -C 300 -c -G --hstore --style /data/osm2pgsql/opentopomap.style -H osmpg -U osm -d osm /data/data.osm.pbf
-#    restart: "no"
-#
+
+  opentopomap:
+    image: treqster/openstopomap:dev
+    build:
+      context: .
+      dockerfile: Dockerfile-opentopomap
+    volumes:
+      - ./tmp/opentopomap/:/map/data/
+      - ./src/:/opt/app/
+    environment:
+      POSTGRES_HOST: "osmpg"
+      POSTGRES_DB: "openstopomap"
+      POSTGRES_USER: "osm"
+
+
+  opentopomap-builder:
+    image: treqster/openstopomap:dev
+    build:
+      context: .
+      dockerfile: Dockerfile-opentopomap
+    volumes:
+      - ./tmp/opentopomap/:/map/data/
+      - ./src/:/opt/app/
+      - ./prepare-openstopomap.sh:/data/build.sh
+    environment:
+      POSTGRES_HOST: "osmpg"
+      POSTGRES_DB: "openstopomap"
+      POSTGRES_USER: "osm"
+    command: /data/build.sh
+    restart: "no"
+
+
+
   osmpg:
     image: treqster/postgis-osm
     build:
@@ -74,7 +112,8 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: "osm"
+#      POSTGRES_DB: "osm"
+      POSTGRES_DBS: "openstreetmapcarto hikebikemapcarto opentopomap"
       POSTGRES_USER: "osm"
       POSTGRES_PASSWORD: ""
 
