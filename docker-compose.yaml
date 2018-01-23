@@ -103,21 +103,21 @@ services:
     restart: "no"
 
 
-
-  osmpg:
+  openstreetmap-carto-pg:
     image: treqster/postgis-osm
     build:
       context: .
       dockerfile: ./postgis-osm/Dockerfile
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - openstreetmap-carto-pg:/var/lib/postgresql/data
     environment:
-#      POSTGRES_DB: "osm"
-      POSTGRES_DBS: "openstreetmapcarto hikebikemapcarto opentopomap"
+      POSTGRES_DB: "osm"
+#      POSTGRES_DBS: "openstreetmapcarto hikebikemapcarto opentopomap"
       POSTGRES_USER: "osm"
       POSTGRES_PASSWORD: ""
 
 
 volumes:
-  pgdata:
+  openstreetmap-carto-pg:
+
 
